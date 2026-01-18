@@ -63,25 +63,19 @@ def get_guess_from_player(wins, losses, game_board, keyboard):
 
 
 def format_guess(solution, guess, guesses_used, theme):
-    match = ['W'] * WORD_LENGTH
-    solution_chars = list(solution)
-
-    for i in range(WORD_LENGTH):
-        if guess[i] == solution[guesses_used]:
-            match[i] = 'G'
-            solution_chars[guesses_used] = None
-
-    for i in range(WORD_LENGTH):
-        if match[i] != 'G' and guess[i] in solution_chars:
-            match[i] = 'Y'
-            solution_chars[solution_chars.index(guess[i])] = None
+    appearances = {}
+    for char in solution:
+        appearances[char] = appearances.get(char, 0) + 1
 
     parts = []
+
     for i in range(WORD_LENGTH):
-        if match[i] == "G":
+        if guess[i] == solution[guesses_used] and i == guess.index(guess[i]):
             parts.append(f"{theme.green}{guess[i]}{Style.RESET_ALL}")
-        elif match[i] == "Y":
+            appearances[guess[i]] -= 1
+        elif guess[i] in solution and appearances.get(guess[i], 0) > 0:
             parts.append(f"{theme.yellow}{guess[i]}{Style.RESET_ALL}")
+            appearances[guess[i]] -= 1
         else:
             parts.append(f"{theme.gray}{guess[i]}{Style.RESET_ALL}")
 
@@ -134,7 +128,7 @@ def verticle(wins, losses, theme):
     # clear()
 
     guesses_used = 0
-    solution = random.choice(SOLUTIONS)
+    solution = "CAUSE"
     guess = ""
     letters = {chr(i): 0 for i in range(ord('A'), ord('Z') + 1)}
 
