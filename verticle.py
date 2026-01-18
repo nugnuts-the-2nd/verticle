@@ -159,8 +159,7 @@ def verticle(wins, losses, theme):
 
         guess_slots[guesses_used] = format_guess(solution, guess, guesses_used, theme)
         game_board = '\n'.join(
-            ''.join(get_formatted_letter(guess_slots[col], row) for col in range(WORD_LENGTH))
-            for row in range(WORD_LENGTH)
+            ''.join(get_formatted_letter(guess_slots[col], row) for col in range(WORD_LENGTH)) for row in range(WORD_LENGTH)
         )
 
         keyboard = format_keyboard(solution, guess, guesses_used, letters, theme)
