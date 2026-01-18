@@ -176,7 +176,7 @@ def verticle(wins, losses, theme):
     else:
         losses += 1
 
-    print(f"Verticle\n\nGames Won: {wins}\nGames Lost: {losses}\n\n{game_board}")
+    print(f"Verticle\n\nGames Won: {wins}\nGames Lost: {losses}\n\n{game_board}\n")
     print("You win!" if winned else f"You lose! The solution was {solution}.")
 
     return wins, losses
