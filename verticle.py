@@ -131,37 +131,29 @@ def get_guess_from_player():
 
 
 def format_guess(solution, guess, guesses_used):
-    formatted_guess = ""
-    match = ['W'] * 5
-    appearances = {}
-
-    for i in solution:
-        if i in appearances:
-            appearances[i] += 1
-        else:
-            appearances[i] = 1
+    match = ['W'] * WORD_LENGTH
+    solution_chars = list(solution)
 
     for i in range(WORD_LENGTH):
         if guess[i] == solution[guesses_used]:
             match[i] = 'G'
-            appearances[guess[i]] -= 1
+            solution_chars[guesses_used] = None
 
     for i in range(WORD_LENGTH):
-        if guess[i] in solution and match[i] != 'G' and appearances[guess[i]] > 0:
+        if match[i] != 'G' and guess[i] in solution_chars:
             match[i] = 'Y'
-            appearances[guess[i]] -= 1
+            solution_chars[solution_chars.index(guess[i])] = None
 
-    global style1, style2, style3
-
+    parts = []
     for i in range(WORD_LENGTH):
         if match[i] == "G":
-            formatted_guess += style1 + Style.BRIGHT + guess[i] + Style.RESET_ALL
+            parts.append(f"{style1}{Style.BRIGHT}{guess[i]}{Style.RESET_ALL}")
         elif match[i] == "Y":
-            formatted_guess += style2 + Style.BRIGHT + guess[i] + Style.RESET_ALL
-        elif match[i] == "W":
-            formatted_guess += style3 + Style.BRIGHT + guess[i] + Style.RESET_ALL
+            parts.append(f"{style2}{Style.BRIGHT}{guess[i]}{Style.RESET_ALL}")
+        else:
+            parts.append(f"{style3}{Style.BRIGHT}{guess[i]}{Style.RESET_ALL}")
 
-    return formatted_guess
+    return ''.join(parts)
 
 
 def get_formatted_letter(formatted_string, position):
