@@ -101,10 +101,10 @@ def format_keyboard(solution, guess, guesses_used, letters, theme):
     for i in range(WORD_LENGTH):
         if guess[i] == solution[guesses_used]:
             letters[guess[i]] = 3
-        elif guess[i] in solution and letters[guess[i]] < 3:
-            letters[guess[i]] = max(letters[guess[i]], 2)
+        elif guess[i] in solution and letters[guess[i]] != 3:
+            letters[guess[i]] = 2
         else:
-            letters[guess[i]] = max(letters[guess[i]], 1)
+            letters[guess[i]] = 1
 
     keyboard_parts = []
     for char in "QWERTYUIOP\n ASDFGHJKL\n   ZXCVBNM":
