@@ -111,12 +111,11 @@ def format_keyboard(solution, guess, guesses_used, letters, theme):
         if not char.isalpha():
             keyboard_parts.append(char)
         else:
-            state = letters[char]
-            if state == 3:
+            if letters[char] == 3:
                 keyboard_parts.append(f"{theme.green}{char}{Style.RESET_ALL} ")
-            elif state == 2:
+            elif letters[char] == 2:
                 keyboard_parts.append(f"{theme.yellow}{char}{Style.RESET_ALL} ")
-            elif state == 1:
+            elif letters[char] == 1:
                 keyboard_parts.append(f"{theme.gray}{char}{Style.RESET_ALL} ")
             else:
                 keyboard_parts.append(f"{theme.default}{char}{Style.RESET_ALL} ")
