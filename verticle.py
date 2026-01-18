@@ -97,7 +97,7 @@ def get_formatted_letter(formatted_string, position):
 
 def format_keyboard(solution, guess, guesses_used, letters, theme):
     for i in range(WORD_LENGTH):
-        if letters[guess[1]] < 3 and guess[i] == solution[guesses_used]:
+        if letters[guess[i]] < 3 and guess[i] == solution[guesses_used]:
             letters[guess[i]] = 3
         elif letters[guess[i]] < 2 and guess[i] in solution:
             letters[guess[i]] = 2
