@@ -124,6 +124,15 @@ def format_keyboard(solution, guess, guesses_used, letters, theme):
     return ''.join(keyboard_parts)
 
 
+def play_again():
+    choice = input("\nPlay again? YES or NO\n\n").upper()
+    while choice not in ("Y", "YES", "N", "NO"):
+        # clear()
+        choice = input("Invalid input. Play again? YES or NO\n\n").upper()
+
+    return choice in ("Y", "YES")
+
+
 def verticle(wins, losses, theme):
     # clear()
 
@@ -172,15 +181,6 @@ def verticle(wins, losses, theme):
     print("You win!" if winned else f"You lose! The solution was {solution}.")
 
     return wins, losses
-
-
-def play_again():
-    choice = input("\nPlay again? YES or NO\n\n").upper()
-    while choice not in ("Y", "YES", "N", "NO"):
-        # clear()
-        choice = input("Invalid input. Play again? YES or NO\n\n").upper()
-
-    return choice in ("Y", "YES")
 
 
 def main():
