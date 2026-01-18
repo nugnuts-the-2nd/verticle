@@ -89,9 +89,7 @@ def get_formatted_letter(formatted_string, position):
     matches = list(re.finditer(r'(\x1b\[[0-9;]+m)*([A-Z])', formatted_string))
 
     if position < len(matches):
-        match = matches[position]
-        result = match.group(0)
-        result += Style.RESET_ALL
+        result = matches[position].group(0) + Style.RESET_ALL
         return result
 
     return "_"
