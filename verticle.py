@@ -81,11 +81,10 @@ def verticle():
         guess = get_guess_from_player()
 
         guess_slots[guesses_used] = format_guess(solution, guess, guesses_used)
-        game_board = ""
-        for row in range(WORD_LENGTH):
-            for col in range(WORD_LENGTH):
-                game_board += get_formatted_letter(guess_slots[col], row)
-            game_board += "\n"
+        game_board = '\n'.join(
+            ''.join(get_formatted_letter(guess_slots[col], row) for col in range(WORD_LENGTH))
+            for row in range(WORD_LENGTH)
+        )
 
         keyboard = format_keyboard(solution, guess, guesses_used)
 
