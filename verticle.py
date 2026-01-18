@@ -33,18 +33,8 @@ THEMES = {
 }
 
 
-def main():
-    wins = 0
-    losses = 0
-    theme = get_theme_choice()
-
-    while True:
-        wins, losses = verticle(wins, losses, theme)
-
-        if not play_again():
-            # clear()
-            print("\nThanks for playing!")
-            break
+def clear():
+    os.system('clear')
 
 
 def get_theme_choice():
@@ -52,7 +42,7 @@ def get_theme_choice():
         f"Theme? 1 ({THEMES['1'].default}W{THEMES['1'].green}O{THEMES['1'].gray}R{THEMES['1'].yellow}D{THEMES['1'].default}L{THEMES['1'].gray}E{Style.RESET_ALL})"
         + f" or 2 ({THEMES['2'].default}W{THEMES['2'].green}O{THEMES['2'].gray}R{THEMES['2'].yellow}D{THEMES['2'].default}L{THEMES['2'].gray}E{Style.RESET_ALL})"
         + f" or 3 ({THEMES['3'].default}W{THEMES['3'].green}O{THEMES['3'].gray}R{THEMES['3'].yellow}D{THEMES['3'].default}L{THEMES['3'].gray}E{Style.RESET_ALL}): ")
-    while choice not in ("1", "2", "3"):
+    while choice not in ('1', '2', '3'):
         # clear()
         choice = input(
             f"Invalid input. 1 ({THEMES['1'].default}W{THEMES['1'].green}O{THEMES['1'].gray}R{THEMES['1'].yellow}D{THEMES['1'].default}L{THEMES['1'].gray}E{Style.RESET_ALL})"
@@ -60,69 +50,6 @@ def get_theme_choice():
             + f" or 3 ({THEMES['3'].default}W{THEMES['3'].green}O{THEMES['3'].gray}R{THEMES['3'].yellow}D{THEMES['3'].default}L{THEMES['3'].gray}E{Style.RESET_ALL}): ")
 
     return THEMES[choice]
-
-
-def verticle(wins, losses, theme):
-    # clear()
-
-    guesses_used = 0
-    solution = random.choice(SOLUTIONS)
-    guess = ""
-    letters = {chr(i): 0 for i in range(ord('A'), ord('Z') + 1)}
-
-    guess_slots = ["_____"] * WORD_LENGTH
-    game_board = '\n'.join(guess_slots)
-
-    keyboard_parts = []
-    for char in "QWERTYUIOP\n ASDFGHJKL\n   ZXCVBNM":
-        if not char.isalpha():
-            keyboard_parts.append(char)
-        else:
-            keyboard_parts.append(f"{theme.default}{char}{Style.RESET_ALL} ")
-    keyboard = ''.join(keyboard_parts)
-
-    while guesses_used < WORD_LENGTH and guess != solution:
-        # clear()
-
-        print(f"Verticle\n\nGames Won: {wins}\nGames Lost: {losses}\n\n{game_board}\n\n{keyboard}")
-        guess = get_guess_from_player(wins, losses, game_board, keyboard)
-
-        guess_slots[guesses_used] = format_guess(solution, guess, guesses_used, theme)
-        game_board = '\n'.join(
-            ''.join(get_formatted_letter(guess_slots[col], row) for col in range(WORD_LENGTH))
-            for row in range(WORD_LENGTH)
-        )
-
-        keyboard = format_keyboard(solution, guess, guesses_used, letters, theme)
-
-        guesses_used += 1
-
-    # clear()
-
-    winned = guess == solution
-
-    if winned:
-        wins += 1
-    else:
-        losses += 1
-
-    print(f"Verticle\n\nGames Won: {wins}\nGames Lost: {losses}\n\n{game_board}")
-    print("You win!" if winned else f"You lose! The solution was {solution}.")
-
-    return wins, losses
-
-
-def play_again():
-    choice = input("\nPlay again? YES or NO\n\n").upper()
-    while choice not in ("Y", "YES", "N", "NO"):
-        # clear()
-        choice = input("Invalid input. Play again? YES or NO\n\n").upper()
-
-    return choice in ("Y", "YES")
-
-
-def clear():
-    os.system('clear')
 
 
 def get_guess_from_player(wins, losses, game_board, keyboard):
@@ -201,6 +128,79 @@ def format_keyboard(solution, guess, guesses_used, letters, theme):
                 keyboard_parts.append(f"{theme.default}{char}{Style.RESET_ALL} ")
 
     return ''.join(keyboard_parts)
+
+
+def verticle(wins, losses, theme):
+    # clear()
+
+    guesses_used = 0
+    solution = random.choice(SOLUTIONS)
+    guess = ""
+    letters = {chr(i): 0 for i in range(ord('A'), ord('Z') + 1)}
+
+    guess_slots = ["_____"] * WORD_LENGTH
+    game_board = '\n'.join(guess_slots)
+
+    keyboard_parts = []
+    for char in "QWERTYUIOP\n ASDFGHJKL\n   ZXCVBNM":
+        if not char.isalpha():
+            keyboard_parts.append(char)
+        else:
+            keyboard_parts.append(f"{theme.default}{char}{Style.RESET_ALL} ")
+    keyboard = ''.join(keyboard_parts)
+
+    while guesses_used < WORD_LENGTH and guess != solution:
+        # clear()
+
+        print(f"Verticle\n\nGames Won: {wins}\nGames Lost: {losses}\n\n{game_board}\n\n{keyboard}")
+        guess = get_guess_from_player(wins, losses, game_board, keyboard)
+
+        guess_slots[guesses_used] = format_guess(solution, guess, guesses_used, theme)
+        game_board = '\n'.join(
+            ''.join(get_formatted_letter(guess_slots[col], row) for col in range(WORD_LENGTH))
+            for row in range(WORD_LENGTH)
+        )
+
+        keyboard = format_keyboard(solution, guess, guesses_used, letters, theme)
+
+        guesses_used += 1
+
+    # clear()
+
+    winned = guess == solution
+
+    if winned:
+        wins += 1
+    else:
+        losses += 1
+
+    print(f"Verticle\n\nGames Won: {wins}\nGames Lost: {losses}\n\n{game_board}")
+    print("You win!" if winned else f"You lose! The solution was {solution}.")
+
+    return wins, losses
+
+
+def play_again():
+    choice = input("\nPlay again? YES or NO\n\n").upper()
+    while choice not in ("Y", "YES", "N", "NO"):
+        # clear()
+        choice = input("Invalid input. Play again? YES or NO\n\n").upper()
+
+    return choice in ("Y", "YES")
+
+
+def main():
+    wins = 0
+    losses = 0
+    theme = get_theme_choice()
+
+    while True:
+        wins, losses = verticle(wins, losses, theme)
+
+        if not play_again():
+            # clear()
+            print("\nThanks for playing!")
+            break
 
 
 if __name__ == "__main__":
