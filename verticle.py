@@ -1,9 +1,10 @@
 import os
 import random
 import re
-
 from colorama import Fore, Back, Style
 
+SOLUTIONS = open("possible_solutions.txt").read().splitlines()
+ALLOWED_GUESSES = set(open("allowed_guesses.txt").read().splitlines())
 
 style1 = Fore.GREEN
 style2 = Fore.LIGHTYELLOW_EX
@@ -33,7 +34,7 @@ def verticle():
 
     guesses_used = 0
 
-    solution = random.choice(open("possible_solutions.txt").read().splitlines())
+    solution = random.choice(SOLUTIONS)
     guess = ""
 
     guess_slots = ["_____"] * WORD_LENGTH
@@ -122,7 +123,7 @@ def clear():
 def get_guess_from_player():
     guess = input("Guess: ").upper()
 
-    while guess not in open("allowed_guesses.txt").read().splitlines():
+    while guess not in ALLOWED_GUESSES:
         # clear()
         print(f"Verticle\n\nGames Won: {wins}\nGames Lost: {losses}\n\n{game_board}")
         guess = input("Invalid Guess. Try again: ").upper()
