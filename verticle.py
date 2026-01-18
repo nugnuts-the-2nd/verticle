@@ -12,8 +12,6 @@ style3 = Fore.LIGHTBLACK_EX
 style4 = Style.RESET_ALL
 
 WORD_LENGTH = 5  # needs to be length of the words
-wins = 0
-losses = 0
 
 game_board = ""
 
@@ -27,10 +25,23 @@ letters = {
     }
 
 
-def verticle():
+def main():
+    wins = 0
+    losses = 0
+
+    while True:
+        wins, losses = verticle(wins, losses)
+
+        if not play_again():
+            # clear()
+            print("\nThanks for playing!")
+            break
+
+
+def verticle(wins, losses):
     # clear()
 
-    global wins, losses, game_board
+    global game_board
 
     guesses_used = 0
 
@@ -89,7 +100,7 @@ def verticle():
         keyboard = format_keyboard(solution, guess, guesses_used)
 
         guesses_used += 1
-        
+
     # clear()
 
     winned = guess == solution
@@ -101,18 +112,17 @@ def verticle():
 
     print(f"Verticle\n\nGames Won: {wins}\nGames Lost: {losses}\n\n{game_board}")
     print("You win!" if winned else f"You lose! The solution was {solution}.")
+
+    return wins, losses
+
+
+def play_again():
     choice = input("\nPlay again? YES or NO\n\n").upper()
     while choice not in ("Y", "YES", "N", "NO"):
         # clear()
-        print(f"Verticle\n\nGames Won: {wins}\nGames Lost: {losses}\n\n{game_board}")
-        print("You win!" if winned else f"You lose! The solution was {solution}.")
         choice = input("\nInvalid input. Play again? YES or NO\n\n").upper()
-    match choice:
-        case "Y" | "YES":
-            verticle()
-        case "N" | "NO":
-            # clear()
-            print("\nThanks for playing!")
+
+    return choice in ("Y", "YES")
 
 
 def clear():
@@ -199,4 +209,5 @@ def format_keyboard(solution, guess, guesses_used):
     return ''.join(keyboard_parts)
 
 
-verticle()
+if __name__ == "__main__":
+    main()
