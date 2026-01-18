@@ -192,7 +192,6 @@ def main():
         wins, losses = verticle(wins, losses, theme)
 
         if not play_again():
-            # clear()
             print("\nThanks for playing!")
             break
 
