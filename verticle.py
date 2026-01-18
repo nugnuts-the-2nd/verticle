@@ -180,31 +180,31 @@ def get_formatted_letter(formatted_string, position):
 
 
 def format_keyboard(solution, guess, guesses_used):
-    formatted_keyboard = ""
-    global letters, style1, style2, style3, style4
-
     for i in range(WORD_LENGTH):
         if guess[i] == solution[guesses_used]:
             letters[guess[i]] = 3
-        elif guess[i] in solution:
-            if letters[guess[i]] <= 2:
-                letters[guess[i]] = 2
-        elif guess[i] not in solution:
-            letters[guess[i]] = 1
+        elif guess[i] in solution and letters[guess[i]] < 3:
+            letters[guess[i]] = max(letters[guess[i]], 2)
+        else:
+            letters[guess[i]] = max(letters[guess[i]], 1)
 
-    for i in "QWERTYUIOP\n ASDFGHJKL\n   ZXCVBNM":
-        if not i.isalpha():
-            formatted_keyboard += i
-        elif letters[i] == 3:
-            formatted_keyboard += style1 + Style.BRIGHT + i + Style.RESET_ALL + " "
-        elif letters[i] == 2:
-            formatted_keyboard += style2 + Style.BRIGHT + i + Style.RESET_ALL + " "
-        elif letters[i] == 1:
-            formatted_keyboard += style3 + Style.BRIGHT + i + Style.RESET_ALL + " "
-        elif letters[i] == 0:
-            formatted_keyboard += style4 + i + Style.RESET_ALL + " "
+    # Build keyboard efficiently
+    keyboard_parts = []
+    for char in "QWERTYUIOP\n ASDFGHJKL\n   ZXCVBNM":
+        if not char.isalpha():
+            keyboard_parts.append(char)
+        else:
+            state = letters[char]
+            if state == 3:
+                keyboard_parts.append(f"{style1}{Style.BRIGHT}{char}{Style.RESET_ALL} ")
+            elif state == 2:
+                keyboard_parts.append(f"{style2}{Style.BRIGHT}{char}{Style.RESET_ALL} ")
+            elif state == 1:
+                keyboard_parts.append(f"{style3}{Style.BRIGHT}{char}{Style.RESET_ALL} ")
+            else:
+                keyboard_parts.append(f"{style4}{Style.BRIGHT}{char}{Style.RESET_ALL} ")
 
-    return formatted_keyboard
+    return ''.join(keyboard_parts)
 
 
 verticle()
