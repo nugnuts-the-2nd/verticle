@@ -137,7 +137,7 @@ def verticle(wins, losses, theme):
     # clear()
 
     guesses_used = 0
-    solution = "CAUSE"
+    solution = random.choice(SOLUTIONS)
     guess = ""
     letters = {chr(i): 0 for i in range(ord('A'), ord('Z') + 1)}
 
